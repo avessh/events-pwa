@@ -1,14 +1,14 @@
-const props = ["name", "email", "tel", "address", "icon"];
-const opts = { multiple: true };
+import pwafire from "https://unpkg.com/pwafire/esm/index.js";
+const pwa = pwafire.pwa;
+const getContactsButton = document.getElementById("contact-picker");
+const props = ["name", "email", "tel"];
+const options = { multiple: true };
 
-async function getContacts() {
-  try {
-    const contacts = await navigator.contacts.select(props, opts);
-    handleResults(contacts);
-  } catch (ex) {
-    // Handle any errors here.
-  }
-}
-
-const btn = document.getElementById('contacts')
-btn.addEventListener('click' , getContacts)
+getContactsButton.addEventListener("click", async () => {
+  // Do something with the promise value...
+  pwa.Contacts(props, options).then(res => {
+    // Do something with contacts...
+    const contacts =
+      res.type === "success" ? res.contacts : alert(res.error.message);
+  });
+});
